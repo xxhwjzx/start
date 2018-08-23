@@ -6,6 +6,7 @@ from callbacks.trainingmonitor import TrainningMonitor
 from sklearn.preprocessing import LabelBinarizer
 from pyimagepreprocess.nn.conv.minivggnet import MiniVGGNet
 from keras.optimizers import SGD
+from keras.optimizers import Adam
 from keras.datasets import cifar10
 import argparse
 import os
@@ -13,7 +14,7 @@ import os
 ap=argparse.ArgumentParser()
 ap.add_argument('-o','--output',required=True,
                 help='path to the output directory')
-args=ap.parse_args()
+args=vars(ap.parse_args())
 
 print('[INFO] process ID:{}'.format((os.getpid())))
 #返回当前进程ID,当同时运行多个程序时候，可以看到那个id的运行效果不好
@@ -30,10 +31,12 @@ labelnames=['airplane','automobile','bird','cat','deer',
             'dog','frog','horse','ship','truck']
 
 print('[INFO] compiling model...')
-opt=SGD(lr=0.01,momentum=0.9,nesterov=True)
+# opt=SGD(lr=0.01,momentum=0.9,nesterov=True)
+opt=Adam(lr=0.01)
 model=MiniVGGNet.build(32,32,3,10)
 model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 figpath=os.path.altsep.join([args['output'],'{}.png'.format(os.getpid())])
+print(figpath)
 #getpid()  Return the current process id.
 jsonPath=os.path.altsep.join([args['output'],'{}.json'.format(os.getpid())])
 callbacks=[TrainningMonitor(figpath,jsonPath=jsonPath)]
