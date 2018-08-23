@@ -30,4 +30,15 @@ labelnames=['airplane','automobile','bird','cat','deer',
             'dog','frog','horse','ship','truck']
 
 print('[INFO] compiling model...')
-opt=SGD(lr=0.01,momentum=0.9,)
+opt=SGD(lr=0.01,momentum=0.9,nesterov=True)
+model=MiniVGGNet.build(32,32,3,10)
+model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
+figpath=os.path.sep.join([args['output'],'{}.png'.format(os.getpid())])
+#getpid()  Return the current process id.
+jsonPath=os.path.sep.join([args['output'],'{}.json'.format(os.getpid())])
+callbacks=[TrainningMonitor(figpath,jsonPath=jsonPath)]
+
+print('[INFO] training network...')
+model.fit(trainx,trainy,validation_data=(testx,testy),batch_size=64,epochs=100,
+          callbacks=callbacks,verbose=1)
+
