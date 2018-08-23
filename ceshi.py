@@ -32,16 +32,50 @@
 # image=list(paths.list_images('./datasets/animals'))
 # print(image)
 
-from tensorflow.examples.tutorials.mnist import input_data
-import tensorflow as tf
-file='./datasets/MNIST'
-mnist=input_data.read_data_sets(file,one_hot=True)
-trainx=mnist.train.images
-testx=mnist.test.images
-trainy=mnist.train.labels
-testy=mnist.test.labels
-# print(trainx.shape)
-trainx=trainx.reshape((trainx.shape[0],28,28,1))
-testx=testx.reshape((testx.shape[0],28,28,1))
+# from tensorflow.examples.tutorials.mnist import input_data
+# import tensorflow as tf
+# file='./datasets/MNIST'
+# mnist=input_data.read_data_sets(file,one_hot=True)
+# trainx=mnist.train.images
+# testx=mnist.test.images
+# trainy=mnist.train.labels
+# testy=mnist.test.labels
+# # print(trainx.shape)
+# trainx=trainx.reshape((trainx.shape[0],28,28,1))
+# testx=testx.reshape((testx.shape[0],28,28,1))
 # print(trainy)
 # print(trainy)
+
+
+
+
+
+import os
+from imutils import paths
+import cv2
+
+
+# figname=os.path.altsep.join(['./output','1.jpg'])
+# print(figname)
+#
+# listname=list(paths.list_images('./datasets'))
+# print(listname)
+# print(os.path.altsep.join(['./output','{}.png'.format(os.getpid())]))
+
+# fig1=os.path.altsep.join(['./output','{}.png'.format(os.getpid())])
+# fig2=cv2.imread('./output/3animals.png')
+# cv2.imwrite(fig1,fig2)
+# cv2.imshow('image',cv2.imread(fig1))
+# cv2.waitKey(0)
+
+import argparse
+import os
+
+ap=argparse.ArgumentParser()
+ap.add_argument('-o','--output',required=True,
+                help='path to the output directory')
+args=vars(ap.parse_args())
+# print(args['output'])
+figpath=os.path.altsep.join([args['output'],'1.png'])
+print(figpath)
+
