@@ -6,7 +6,7 @@ from callbacks.trainingmonitor import TrainningMonitor
 from sklearn.preprocessing import LabelBinarizer
 from pyimagepreprocess.nn.conv.minivggnet import MiniVGGNet
 from keras.optimizers import SGD
-from keras.optimizers import Adam
+# from keras.optimizers import Adam
 from keras.datasets import cifar10
 import argparse
 import os
@@ -31,8 +31,8 @@ labelnames=['airplane','automobile','bird','cat','deer',
             'dog','frog','horse','ship','truck']
 
 print('[INFO] compiling model...')
-# opt=SGD(lr=0.01,momentum=0.9,nesterov=True)
-opt=Adam(lr=0.01)
+opt=SGD(lr=0.01,momentum=0.9,nesterov=True)
+# opt=Adam(lr=0.01)
 model=MiniVGGNet.build(32,32,3,10)
 model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 figpath=os.path.altsep.join([args['output'],'{}.png'.format(os.getpid())])
