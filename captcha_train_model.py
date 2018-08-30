@@ -26,18 +26,23 @@ labels=[]
 
 for imagePath in paths.list_images(args['dataset']):
     image=cv2.imread(imagePath)
-    image=cv2.cvtColor(imagePath,cv2.COLOR_BGR2GRAY)
+    # print(image)
+    image=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
     image=preprocess(image,28,28)
     image=img_to_array(image)
     data.append(image)
-    label=imagePath.split(os.path.altsep)[-2]
+    label=imagePath.split(os.path.altsep)[-1].split(os.path.sep)[1]
+    # print(label)
     labels.append(label)
+
 
 
 data=np.array(data,dtype='float')/255.0
 labels=np.array(labels)
+# print(labels)
 
 (trainx,testx,trainy,testy)=train_test_split(data,labels,test_size=0.25,random_state=42)
+# print(trainy)
 lb=LabelBinarizer()
 trainy=lb.fit_transform(trainy)
 testy=lb.transform(testy)
@@ -66,4 +71,6 @@ plt.xlabel('Epoch')
 plt.ylabel('loss/acc')
 plt.legend()
 plt.show()
-
+#
+#
+# E:\AI\deep_learning_for_computer_vision\start>python captcha_train_model.py --dataset ./captcha_breaker/dataset --model ./captcha_breaker/output/lenet.hdf5
