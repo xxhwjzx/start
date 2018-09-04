@@ -30,7 +30,7 @@ while True:
     frame=imutils.resize(frame,height=500)   #保持纵横比，根据高度修改图像像素
     (h,w)=frame.shape[:2]                    #获取高h 宽w
     center=(w//2,h//2)                       #获取图像中心
-    M=cv2.getRotationMatrix2D(center,0,1)    #实例化cv2旋转函数，第一个参数是中心，第二个参数是角度，第三个参数是缩放大小
+    M=cv2.getRotationMatrix2D(center,90,1)    #实例化cv2旋转函数，第一个参数是中心，第二个参数是角度，第三个参数是缩放大小
     frame=cv2.warpAffine(frame,M,(w,h))      #进行旋转 并将旋转后的图片赋值给frame
     gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
     frameClone=frame.copy()
