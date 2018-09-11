@@ -2,37 +2,43 @@
 import h5py
 import os
 
+
 class HDF5DatasetWriter:
-    def __init__(self,dims,outputPath,dataKey='image',bufSize=1000):
+    def __init__(self, dims, outputPath, dataKey='image', bufSize=1000):
+        # dims 数据的维度
+        # outputPath 输出文件夹
+        # datakey 文件名 一般情况下是“image”
+        # bufsize
+
         if os.path.exists(outputPath):
             raise ValueError('The supplied "outputPath" already exists and cannot be overwritten .'
-                             'Manually delete the file before continuing',outputPath)
-        self.db=h5py.File(outputPath,'w')
-        self.data=self.db.create_dataset(dataKey,dims,dtype='float')
-        self.labels=self.db.create_dataset('labels',(dims[0],),dtype='int')
-        self.bufSize=bufSize
-        self.buffer={'data':[],'labels':[]}
-        self.idx=0
-    def add(self,rows,labels):
+                             'Manually delete the file before continuing', outputPath)
+        self.db = h5py.File(outputPath, 'w')
+        self.data = self.db.create_dataset(dataKey, dims, dtype='float')
+        self.labels = self.db.create_dataset('labels', (dims[0],), dtype='int')
+        self.bufSize = bufSize
+        self.buffer = {'data': [], 'labels': []}
+        self.idx = 0
+
+    def add(self, rows, labels):
         self.buffer['data'].extend(rows)
         self.buffer['labels'].extend(labels)
-        if len(self.buffer['data'])>=self.bufSize:
+        if len(self.buffer['data']) >= self.bufSize:
             self.flush()
+
     def flush(self):
-        i=self.idx+len(self.buffer['data'])
-        self.data[self.idx:i]=self.buffer['data']
-        self.labels[self.idx:i]=self.buffer['labels']
-        self.idx=i
-        self.buffer={'data':[],'labels':[]}
-    def storeClassLabels(self,classLabels):
-        dt=h5py.special_dtype(vlen=str)
-        labelSet=self.db.create_dataset('label_name',(len(classLabels),),dtype=dt)
-        labelSet[:]=classLabels
+        i = self.idx + len(self.buffer['data'])
+        self.data[self.idx:i] = self.buffer['data']
+        self.labels[self.idx:i] = self.buffer['labels']
+        self.idx = i
+        self.buffer = {'data': [], 'labels': []}
+
+    def storeClassLabels(self, classLabels):
+        dt = h5py.special_dtype(vlen=str)
+        labelSet = self.db.create_dataset('label_name', (len(classLabels),), dtype=dt)
+        labelSet[:] = classLabels
+
     def close(self):
-        if len(self.buffer['data'])>0:
+        if len(self.buffer['data']) > 0:
             self.flush()
         self.db.close()
-
-
-
-
