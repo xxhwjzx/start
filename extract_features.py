@@ -1,6 +1,9 @@
 # -- encoding:utf-8 --
 #导入各种包
 from keras.applications import VGG16
+#Keras Applications are deep learning models that are made available alongside pre-trained weights.
+# These models can be used for prediction, feature extraction, and fine-tuning.
+#Keras应用程序是深度学习模型，与预先训练的权重一起提供。这些模型可用于预测，特征提取和微调。
 from keras.applications import ResNet50
 from keras.applications import imagenet_utils
 from keras.preprocessing.image import img_to_array
