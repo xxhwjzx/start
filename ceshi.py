@@ -179,6 +179,31 @@ import cv2
 
 
 
-imagePaths=list(paths.list_images('./datasets/animals/'))
-labels=[p.split(os.path.sep)[-2].split(os.path.altsep)[-1] for p in imagePaths]
-print(labels)
+# imagePaths=list(paths.list_images('./datasets/animals/'))
+# labels=[p.split(os.path.sep)[-2].split(os.path.altsep)[-1] for p in imagePaths]
+# print(labels)
+from sklearn.preprocessing import LabelEncoder
+import random
+from keras.preprocessing.image import load_img
+from keras.preprocessing.image import img_to_array
+from keras.applications import imagenet_utils
+imagePaths = list(paths.list_images('./datasets/animals/'))
+
+# random.shuffle(imagePaths)
+print(imagePaths)
+image = load_img(imagePaths[0], target_size=(224, 224))
+print(image)
+image = img_to_array(image)
+print(image)
+print(image.shape)
+image = np.expand_dims(image, axis=0)
+print(image)
+print(image.shape)
+image = imagenet_utils.preprocess_input(image)
+print(image)
+# labels = [p.split(os.path.sep)[-2].split(os.path.altsep)[-1] for p in imagePaths]
+#
+# print(labels)
+# le = LabelEncoder()
+# labels = le.fit_transform(labels)
+# print(le.classes_)
